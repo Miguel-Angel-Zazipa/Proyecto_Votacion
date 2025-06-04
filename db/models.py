@@ -4,15 +4,19 @@ from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text
 class Usuarios(Base):
     __tablename__ = "usuarios"
     id = Column(Integer, primary_key=True)
-    nombre_completo = Column(String(50))
+    nombre = Column(String(50))
+    apellido = Column(String(50))
     fecha_creacion = Column(DateTime)
+
 
 class Credenciales(Base):
     __tablename__ = "credenciales"
     id = Column(Integer, primary_key=True)
     usuario_id = Column(Integer, ForeignKey("usuarios.id"))
-    correo = Column(String(100))
-    contraseña = Column(String(100))
+    tipo_usuario= Column(Integer)
+    numero_cedula = Column(Integer, unique=True)
+    correo = Column(String(100), unique=True)
+    contrasena = Column(String(100))
 
 class Votaciones(Base):
     __tablename__ = "votaciones"
@@ -22,16 +26,20 @@ class Votaciones(Base):
     fecha_inicio = Column(DateTime)
     fecha_fin = Column(DateTime)
     usuario_creador_id = Column(Integer, ForeignKey("usuarios.id"))
+ 
 
-class Opciones(Base):
-    __tablename__ = "opciones"
+class Tarjeton(Base):
+    __tablename__ = "tarjeton"
     id = Column(Integer, primary_key=True)
     votacion_id = Column(Integer, ForeignKey("votaciones.id"))
-    texto_opcion = Column(String(100))
+    candidato_id = Column(Integer, ForeignKey("usuarios.id"))
+    partido_politico= Column(Text)
+
+
 
 class Votos(Base):
     __tablename__ = "votos"
     id = Column(Integer, primary_key=True)
-    usuarios_id = Column(Integer, ForeignKey("usuarios.id"))
-    opcion_id = Column(Integer, ForeignKey("opciones.id"))
+    votante_id = Column(Integer, ForeignKey("usuarios.id"))
+    candidato_id  = Column(Integer, ForeignKey("tarjeton.id"))
     fecha_voto = Column(DateTime)
