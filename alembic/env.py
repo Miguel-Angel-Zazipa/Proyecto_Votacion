@@ -11,8 +11,8 @@ import os
 # Agrega el directorio raíz del proyecto al path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from db.database import Base, MARIADB_URL
-from db.models import Usuarios, Credenciales, Votaciones, Votos
+from db import MARIADB_URL, engine, Base
+from models import Usuarios
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
